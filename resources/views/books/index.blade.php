@@ -26,6 +26,7 @@
                     <th>Title</th>
                     <th>Author</th>
                     <th>Status</th>
+                    <th style="text-align: right;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +38,11 @@
                             <span class="badge badge-{{ $book->status }}">
                                 {{ str_replace('-', ' ', $book->status) }}
                             </span>
+                        </td>
+                        <td>
+                            <div class="actions-cell">
+                                <a href="{{ route('books.edit', $book) }}" class="btn-edit">Edit</a>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

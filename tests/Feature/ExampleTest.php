@@ -52,4 +52,59 @@ class ExampleTest extends TestCase
 
         $response->assertSessionHasErrors(['title', 'author', 'status']);
     }
+
+    public function test_can_view_edit_book_page(): void
+    {
+        $book = Book::create([
+            'title' => 'Deep Work',
+            'author' => 'Cal Newport',
+            'status' => 'to-read',
+        ]);
+
+        $response = $this->get("/books/{$book->id}/edit");
+
+        $response->assertStatus(200);
+        $response->assertSee('Edit Book');
+        $response->assertSee('Deep Work');
+        $response->assertSee('Cal Newport');
+    }
+
+    public function test_can_update_a_book(): void
+    {
+        $book = Book::create([
+            'title' => 'Deep Work',
+            'author' => 'Cal Newport',
+            'status' => 'to-read',
+        ]);
+
+        $response = $this->put("/books/{$book->id}", [
+            'title' => 'Deep Work (Updated)',
+            'author' => 'Cal Newport',
+            'status' => 'finished',
+        ]);
+
+        $response->assertRedirect('/books');
+        $this->assertDatabaseHas('books', [
+            'id' => $book->id,
+            'title' => 'Deep Work (Updated)',
+            'status' => 'finished',
+        ]);
+    }
+
+    public function test_update_book_validation_fails_with_invalid_data(): void
+    {
+        $book = Book::create([
+            'title' => 'Deep Work',
+            'author' => 'Cal Newport',
+            'status' => 'to-read',
+        ]);
+
+        $response = $this->put("/books/{$book->id}", [
+            'title' => '',
+            'author' => '',
+            'status' => 'invalid',
+        ]);
+
+        $response->assertSessionHasErrors(['title', 'author', 'status']);
+    }
 }
