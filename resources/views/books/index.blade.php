@@ -2,8 +2,15 @@
 
 @section('content')
 <header>
-    <h1>Reading List</h1>
-    <p>Keep track of the books you want to read, are reading, or have finished.</p>
+    <div class="top-bar">
+        <div>
+            <h1>Reading List</h1>
+            <p>Keep track of the books you want to read, are reading, or have finished.</p>
+        </div>
+        <div>
+            <a href="{{ route('books.create') }}" class="btn btn-primary">+ Add book</a>
+        </div>
+    </div>
 </header>
 
 <div class="card">
