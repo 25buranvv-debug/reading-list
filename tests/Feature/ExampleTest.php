@@ -107,4 +107,34 @@ class ExampleTest extends TestCase
 
         $response->assertSessionHasErrors(['title', 'author', 'status']);
     }
+
+    public function test_can_delete_a_book(): void
+    {
+        $book = Book::create([
+            'title' => 'Clean Code',
+            'author' => 'Robert C. Martin',
+            'status' => 'finished',
+        ]);
+
+        $response = $this->delete("/books/{$book->id}");
+
+        $response->assertRedirect('/books');
+        $this->assertDatabaseMissing('books', [
+            'id' => $book->id,
+        ]);
+    }
+
+    public function test_list_page_contains_delete_confirmation(): void
+    {
+        $book = Book::create([
+            'title' => 'Clean Code',
+            'author' => 'Robert C. Martin',
+            'status' => 'finished',
+        ]);
+
+        $response = $this->get('/books');
+
+        $response->assertStatus(200);
+        $response->assertSee("confirm('Are you sure?')", false);
+    }
 }

@@ -42,6 +42,11 @@
                         <td>
                             <div class="actions-cell">
                                 <a href="{{ route('books.edit', $book) }}" class="btn-edit">Edit</a>
+                                <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Are you sure?');" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger-link">Delete</button>
+                                </form>
                             </div>
                         </td>
                     </tr>
