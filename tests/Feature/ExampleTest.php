@@ -137,4 +137,40 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee("confirm('Are you sure?')", false);
     }
+
+    public function test_can_filter_books_by_status(): void
+    {
+        $book1 = Book::create([
+            'title' => 'Book One',
+            'author' => 'Author A',
+            'status' => 'to-read',
+        ]);
+
+        $book2 = Book::create([
+            'title' => 'Book Two',
+            'author' => 'Author B',
+            'status' => 'reading',
+        ]);
+
+        $book3 = Book::create([
+            'title' => 'Book Three',
+            'author' => 'Author C',
+            'status' => 'finished',
+        ]);
+
+        $responseAll = $this->get('/books');
+        $responseAll->assertSee('Book One');
+        $responseAll->assertSee('Book Two');
+        $responseAll->assertSee('Book Three');
+
+        $responseReading = $this->get('/books?status=reading');
+        $responseReading->assertSee('Book Two');
+        $responseReading->assertDontSee('Book One');
+        $responseReading->assertDontSee('Book Three');
+
+        $responseFinished = $this->get('/books?status=finished');
+        $responseFinished->assertSee('Book Three');
+        $responseFinished->assertDontSee('Book One');
+        $responseFinished->assertDontSee('Book Two');
+    }
 }

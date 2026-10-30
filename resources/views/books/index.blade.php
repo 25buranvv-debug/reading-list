@@ -14,10 +14,29 @@
 </header>
 
 <div class="card">
+    <div style="display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); gap: 8px; flex-wrap: wrap;">
+        <span style="font-weight: 600; color: var(--text-muted); font-size: 14px; margin-right: 4px;">Filter:</span>
+        <a href="{{ route('books.index') }}" class="filter-link {{ empty($status) ? 'active' : '' }}">All</a>
+        <span style="color: var(--text-muted);">·</span>
+        <a href="{{ route('books.index', ['status' => 'to-read']) }}" class="filter-link {{ $status === 'to-read' ? 'active' : '' }}">To read</a>
+        <span style="color: var(--text-muted);">·</span>
+        <a href="{{ route('books.index', ['status' => 'reading']) }}" class="filter-link {{ $status === 'reading' ? 'active' : '' }}">Reading</a>
+        <span style="color: var(--text-muted);">·</span>
+        <a href="{{ route('books.index', ['status' => 'finished']) }}" class="filter-link {{ $status === 'finished' ? 'active' : '' }}">Finished</a>
+    </div>
+
     @if($books->isEmpty())
         <div class="empty-state">
-            <h3>No books yet</h3>
-            <p>Your reading list is currently empty.</p>
+            @if(!empty($status))
+                <h3>No books found</h3>
+                <p>No books currently marked as "{{ str_replace('-', ' ', $status) }}".</p>
+                <div style="margin-top: 12px;">
+                    <a href="{{ route('books.index') }}" class="btn btn-secondary btn-sm">Clear Filter</a>
+                </div>
+            @else
+                <h3>No books yet</h3>
+                <p>Your reading list is currently empty.</p>
+            @endif
         </div>
     @else
         <table class="books-table">
