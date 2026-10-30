@@ -1,58 +1,75 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Reading List App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A lightweight Laravel application to manage and organize your personal reading list. It allows you to keep track of books you want to read, are actively reading, or have finished, with intuitive capabilities to create, edit, delete, and filter books by their status.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## What the App Does
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **View Reading List**: Displays all your books with their title, author, and reading status (or a friendly empty state if no books are added).
+- **Add Books**: Simple form to add new books with validation (title and author required, max 255 chars, valid status).
+- **Edit Books**: Update any book's title, author, or status pre-filled in an edit form.
+- **Delete Books**: Remove books safely with an "Are you sure?" confirmation prompt before deletion.
+- **Filter by Status**: Easily filter your reading list with links: **All** · **To read** · **Reading** · **Finished**.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## How to Run It
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Follow these steps to set up and run the application locally:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. Prerequisites
+Ensure you have **PHP 8.2+** with the SQLite extension and **Composer** installed on your machine.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
+### 2. Install Dependencies
+Clone the repository and install the project dependencies:
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 3. Environment Setup
+Create your local environment configuration file:
+- On Linux/macOS:
+  ```bash
+  cp .env.example .env
+  ```
+- On Windows (PowerShell / Command Prompt):
+  ```bash
+  copy .env.example .env
+  ```
 
-## Contributing
+Generate the application encryption key:
+```bash
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Database Setup & Migration
+Prepare the SQLite database and run the migrations:
+```bash
+php artisan migrate
+```
+*(If prompted to create the `database.sqlite` file, choose `yes`)*
 
-## Code of Conduct
+### 5. Start the Application
+Start Laravel's local development server:
+```bash
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Visit **http://localhost:8000** or **http://localhost:8000/books** in your web browser.
 
-## Security Vulnerabilities
+### 6. Running Tests
+Run the automated test suite to verify all features:
+```bash
+php artisan test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## AI Usage
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+In accordance with project guidelines, AI assistance (Google Antigravity / Gemini) was utilized during development for:
+- Scaffolding the Laravel application configuration and database migration for the `books` table.
+- Formulating Eloquent model fillable attributes and controller resource actions.
+- Implementing form validation logic and error feedback in Blade templates.
+- Writing feature tests covering CRUD operations, status filtering, and confirmation alerts.
